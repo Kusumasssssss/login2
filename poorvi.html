@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Patient Symptom Tracker</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-6">
+
+  <!-- Header -->
+  <header class="text-center mb-6">
+    <h1 class="text-3xl font-bold text-blue-700">Daily Health Tracker</h1>
+    <p class="text-gray-600">Log symptoms & medications — track your progress</p>
+  </header>
+
+  <!-- Symptom & Medication Log -->
+  <section class="bg-white p-6 rounded-xl shadow-md max-w-3xl mx-auto mb-8">
+    <h2 class="text-2xl font-semibold text-gray-800 mb-4">📝 Log Today’s Health</h2>
+    <form class="space-y-4">
+      <div>
+        <label class="block font-medium text-sm">Date</label>
+        <input type="date" class="w-full px-4 py-2 border rounded-md">
+      </div>
+
+      <div>
+        <label class="block font-medium text-sm">Symptoms</label>
+        <input type="text" placeholder="e.g., nausea, headache" class="w-full px-4 py-2 border rounded-md">
+      </div>
+
+      <div>
+        <label class="block font-medium text-sm">Medications Taken</label>
+        <input type="text" placeholder="e.g., Metformin 500mg" class="w-full px-4 py-2 border rounded-md">
+      </div>
+
+      <div>
+        <label class="block font-medium text-sm">Side Effects (if any)</label>
+        <input type="text" placeholder="e.g., dizziness, rash" class="w-full px-4 py-2 border rounded-md">
+      </div>
+
+      <!-- NEW: Blood Pressure -->
+      <div>
+        <label class="block font-medium text-sm">Blood Pressure (mmHg)</label>
+        <input type="text" placeholder="e.g., 120/80" class="w-full px-4 py-2 border rounded-md">
+      </div>
+
+      <!-- NEW: Blood Sugar -->
+      <div>
+        <label class="block font-medium text-sm">Blood Sugar (mg/dL)</label>
+        <input type="number" placeholder="e.g., 95" class="w-full px-4 py-2 border rounded-md">
+      </div>
+
+      <button class="bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700">Submit Log</button>
+    </form>
+  </section>
+
+  <!-- Symptom Trends (Placeholder) -->
+  <section class="bg-white p-6 rounded-xl shadow-md max-w-3xl mx-auto mb-8">
+    <h2 class="text-2xl font-semibold text-gray-800 mb-4">📈 Symptom Trends</h2>
+    <div class="bg-blue-50 h-48 flex items-center justify-center text-gray-500 rounded-md">
+      <p>Graph/Chart Placeholder (e.g., Pain vs. Time, BP, Sugar)</p>
+    </div>
+  </section>
+
+  <!-- ADR Detection Alert -->
+  <section class="bg-red-100 p-6 rounded-xl shadow-md max-w-3xl mx-auto border-l-4 border-red-500">
+    <h2 class="text-xl font-semibold text-red-700 mb-2">⚠️ Possible Adverse Drug Reaction</h2>
+    <p class="text-red-600">
+      You reported “rash” after taking “Amoxicillin”. This may indicate an allergic reaction.
+      Please consult your doctor immediately.
+    </p>
+  </section>
+
+</body>
+</html>

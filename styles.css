@@ -1,0 +1,108 @@
+<script>
+  const form = document.getElementById('healthForm');
+  const adrAlert = document.getElementById('adrAlert');
+  const adrMessage = document.getElementById('adrMessage');
+  const symptomChart = document.getElementById('symptomChart').getContext('2d');
+
+  const logs = [];
+
+  const adrRules = [
+    { symptom: 'rash', medication: 'amoxicillin', message: 'Possible allergic reaction to Amoxicillin.' },
+    { symptom: 'dizziness', medication: 'metformin', message: 'Metformin may cause dizziness due to low blood sugar.' },
+    { symptom: 'headache', medication: 'nitroglycerin', message: 'Nitroglycerin can cause headaches. Common side effect.' },
+    { symptom: 'nausea', medication: 'iron', message: 'Iron supplements often cause nausea. Try taking with food.' }
+  ];
+
+  const chartData = {
+    labels: [],
+    datasets: [{
+      label: 'Symptom Frequency (Past 7 Days)',
+      data: [],
+      borderColor: 'rgb(59,130,246)',
+      backgroundColor: 'rgba(59,130,246,0.2)',
+      tension: 0.3,
+      fill: true,
+      pointRadius: 5
+    }]
+  };
+
+  const chart = new Chart(symptomChart, {
+    type: 'line',
+    data: chartData,
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true,
+          title: { display: true, text: 'Number of Symptoms' }
+        },
+        x: {
+          title: { display: true, text: 'Date' }
+        }
+      }
+    }
+  });
+
+  // Check if date is within the last 7 days
+  function isWithinLast7Days(dateStr) {
+    const logDate = new Date(dateStr);
+    const today = new Date();
+    const sevenDaysAgo = new Date(today);
+    sevenDaysAgo.setDate(today.getDate() - 6); // Include today
+
+    return logDate >= sevenDaysAgo && logDate <= today;
+  }
+
+  function updateChart() {
+    // Reset chart data
+    chartData.labels = [];
+    chartData.datasets[0].data = [];
+
+    const recentLogs = logs.filter(log => isWithinLast7Days(log.date));
+
+    const grouped = {};
+
+    recentLogs.forEach(log => {
+      if (!grouped[log.date]) {
+        grouped[log.date] = 0;
+      }
+      grouped[log.date]++;
+    });
+
+    Object.keys(grouped).sort().forEach(date => {
+      chartData.labels.push(date);
+      chartData.datasets[0].data.push(grouped[date]);
+    });
+
+    chart.update();
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const date = document.getElementById('logDate').value;
+    const symptoms = document.getElementById('symptoms').value.toLowerCase();
+    const medications = document.getElementById('medications').value.toLowerCase();
+
+    logs.push({ date, symptoms, medications });
+
+    updateChart();
+
+    let matched = false;
+    for (const rule of adrRules) {
+      if (symptoms.includes(rule.symptom) && medications.includes(rule.medication)) {
+        adrMessage.textContent = rule.message;
+        adrAlert.classList.remove('hidden');
+        matched = true;
+        break;
+      }
+    }
+
+    if (!matched) {
+      adrAlert.classList.add('hidden');
+      alert("Log submitted successfully. No ADR detected.");
+    }
+
+    form.reset();
+  });
+</script>
